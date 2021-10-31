@@ -5,18 +5,17 @@ const dayOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Ч
 const arrayEndings = ['день', 'дня', 'дней'];
 let date = new Date();
 let newYear = new Date("1 January 2022")
-const result = [];
+let result = [];
 
 let time = date.getHours();
 let day = date.getDay();
 let timeNow = date.toTimeString().substr(0, 8);
 
 
-
 const dayWeek = function () {
     if (day != 0) {
-        day = day -1;
-    } else  {
+        day = day - 1;
+    } else {
         day = 6;
     }
     if ((time >= 5) && (time < 11)) {
@@ -48,16 +47,22 @@ const endingsForDay = function (n) {
 };
 
 const newYearLeft = function () {
-    let millSeconds = 24*60*60*1000;
-    let daysLeft = Math.floor((newYear.getTime() - date.getTime())/millSeconds);
-    result.push(`До нового года осталось ${daysLeft} ${arrayEndings[endingsForDay(daysLeft)]}.`)
+    let millSeconds = 24 * 60 * 60 * 1000;
+    let daysLeft = Math.floor((newYear.getTime() - date.getTime()) / millSeconds);
+    result.push(`До нового года ${daysLeft} ${arrayEndings[endingsForDay(daysLeft)]}.`)
 }
 
-const published = function(yourArray) {
+const published = function (yourArray) {
+    date = new Date();
+    body.innerHTML = '';
+    result = [];
+    time = date.getHours();
+    day = date.getDay();
+    timeNow = date.toTimeString().substr(0, 8);
     dayWeek();
     currTime();
     newYearLeft()
-    yourArray.forEach(function(part) {
+    yourArray.forEach(function (part) {
         let p = document.createElement('p');
         p.textContent = part;
         body.appendChild(p)
@@ -66,4 +71,6 @@ const published = function(yourArray) {
 
 published(result);
 
-
+setInterval(() => {
+    published(result);
+}, 1000)
